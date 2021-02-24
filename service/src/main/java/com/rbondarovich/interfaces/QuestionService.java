@@ -2,7 +2,7 @@ package com.rbondarovich.interfaces;
 
 import com.rbondarovich.beans.QuestionBean;
 
-public interface QuestianService {
+public interface QuestionService {
 
     Iterable<QuestionBean> getAllQuestions();
 
