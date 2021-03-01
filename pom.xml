@@ -9,6 +9,7 @@
         <module>telegrambot</module>
         <module>mainappmodule</module>
         <module>service</module>
+        <module>web</module>
     </modules>
 
     <parent>
@@ -28,9 +29,21 @@
         <java.version>11</java.version>
         <app.version>0.0.1-SNAPSHOT</app.version>
         <modelmapper.version>2.3.8</modelmapper.version>
+        <telegram.version>5.0.1</telegram.version>
     </properties>
 
     <dependencies>
+        <!--          Spring               -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
+            <optional>true</optional>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -41,11 +54,32 @@
             <scope>runtime</scope>
             <optional>true</optional>
         </dependency>
+
+        <!--        Telegram Bot Api            -->
+        <dependency>
+            <groupId>org.telegram</groupId>
+            <artifactId>telegrambots-spring-boot-starter</artifactId>
+            <version>${telegram.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.telegram</groupId>
+            <artifactId>telegrambotsextensions</artifactId>
+            <version>${telegram.version}</version>
+        </dependency>
+
+        <!--        DataBase            -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <scope>runtime</scope>
         </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!--        Other               -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -56,6 +90,8 @@
             <artifactId>modelmapper</artifactId>
             <version>${modelmapper.version}</version>
         </dependency>
+
+        <!--        Test                -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
