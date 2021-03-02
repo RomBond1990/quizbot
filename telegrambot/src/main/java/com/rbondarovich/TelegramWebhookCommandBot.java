@@ -31,6 +31,26 @@ abstract public class TelegramWebhookCommandBot extends TelegramWebhookBot imple
     }
 
     @Override
+    public BotApiMethod onWebhookUpdateReceived(Update update){
+        if (update.hasMessage()) {
+            Message message = update.getMessage();
+            if (message.isCommand()) {
+                if (!this.commandRegistry.executeCommand(this, message)) {
+                    this.processInvalidCommandUpdate(update);
+                }
+            } else this.processNonCommandUpdate(update);
+        }
+
+        return null;
+    }
+
+    protected void processInvalidCommandUpdate(Update update) {
+        this.processNonCommandUpdate(update);
+    }
+
+    public abstract void processNonCommandUpdate(Update var1);
+
+    @Override
     public void registerDefaultAction(BiConsumer<AbsSender, Message> defaultConsumer) {
         this.commandRegistry.registerDefaultAction(defaultConsumer);
     }
@@ -70,9 +90,6 @@ abstract public class TelegramWebhookCommandBot extends TelegramWebhookBot imple
 
     @Override
     public abstract String getBotToken();
-
-    @Override
-    public abstract BotApiMethod onWebhookUpdateReceived(Update update);
 
     @Override
     public abstract String getBotPath();

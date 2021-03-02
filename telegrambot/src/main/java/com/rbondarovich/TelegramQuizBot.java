@@ -1,8 +1,9 @@
 package com.rbondarovich;
 
+import com.rbondarovich.commands.GameSelection;
+import com.rbondarovich.commands.StartCommand;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
@@ -15,7 +16,7 @@ public class TelegramQuizBot extends TelegramWebhookCommandBot {
 
     private String BOT_NAME;
     private String BOT_TOKEN;
-    @Value("https://d7ac6a4da101.ngrok.io")
+    @Value("https://efc5dc21fe33.ngrok.io")
     private String WEBHOOK_PATH;
 
     @PostConstruct
@@ -29,20 +30,20 @@ public class TelegramQuizBot extends TelegramWebhookCommandBot {
                 BOT_TOKEN = env.get(envName);
             }
         }
+        register(new StartCommand("start", "Starting bot"));
+        register(new GameSelection("game", "Game selection"));
     }
 
     @Override
-    public BotApiMethod onWebhookUpdateReceived(Update update) {
-        if(update.getMessage() != null && update.getMessage().hasText()) {
+    public void processNonCommandUpdate(Update update) {
+        if (update.getMessage() != null && update.getMessage().hasText()) {
             Long chatId = update.getMessage().getChatId();
-
             try {
-                execute(new SendMessage(chatId.toString(), "hi" + update.getMessage().getText()));
+                execute(new SendMessage(chatId.toString(), "hi " + update.getMessage().getText()));
             } catch (TelegramApiException e) {
                 e.printStackTrace();
             }
         }
-        return null;
     }
 
     @Override
